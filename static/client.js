@@ -8,31 +8,35 @@ function createLoginUI() {
     container.className = 'login-container';
     container.innerHTML = `
         <style>
-            body {
-                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            }
             .login-container {
-                max-width: 800px;
-                margin: 50px auto;
+                max-width: 900px;
+                width: 90%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                margin: 0;
+                padding: 40px;
+                border-radius: 12px;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .login-content {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 20px;
-                padding: 30px;
-                border-radius: 12px;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-                background: white;
+                gap: 30px;
             }
             .login-section {
                 padding: 20px;
             }
             .project-info {
-                border-right: 1px solid #eee;
+                border-right: 1px solid rgba(255, 255, 255, 0.2);
                 padding-right: 30px;
-            }
-            .project-info h2 {
-                color: #2c3e50;
-                font-size: 20px;
-                margin-bottom: 15px;
             }
             .feature-list {
                 list-style: none;
@@ -59,11 +63,12 @@ function createLoginUI() {
                 margin-top: 15px;
             }
             .tech-tag {
-                background: #e8f5e9;
-                color: #2e7d32;
+                background: rgba(76, 175, 80, 0.1);
+                color: #4CAF50;
                 padding: 4px 12px;
                 border-radius: 12px;
                 font-size: 12px;
+                border: 1px solid rgba(76, 175, 80, 0.2);
             }
             .login-header {
                 text-align: center;
@@ -111,6 +116,26 @@ function createLoginUI() {
                 font-size: 16px;
                 font-weight: 500;
                 transition: all 0.3s;
+                position: relative;
+                overflow: hidden;
+            }
+            .login-button:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    120deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent
+                );
+                transition: 0.5s;
+            }
+            .login-button:hover:before {
+                left: 100%;
             }
             .login-button:hover {
                 background: #45a049;
@@ -164,55 +189,88 @@ function createLoginUI() {
                 margin-right: 8px;
                 vertical-align: middle;
             }
+            .github-link {
+                text-align: center;
+                margin-top: 20px;
+                padding: 15px;
+                border-top: 1px solid #eee;
+            }
+            .github-link a {
+                color: #2c3e50;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 14px;
+                transition: color 0.3s;
+            }
+            .github-link a:hover {
+                color: #4CAF50;
+            }
+            .github-icon {
+                width: 20px;
+                height: 20px;
+                fill: currentColor;
+            }
         </style>
-        <div class="project-info login-section">
-            <h2>GrpcGate 项目说明</h2>
-            <ul class="feature-list">
-                <li>基于 gRPC-Web 的现代通信架构</li>
-                <li>Go 后端提供高性能服务</li>
-                <li>支持双向流式通信</li>
-                <li>内置安全认证机制</li>
-                <li>跨平台兼容性支持</li>
-            </ul>
-            <h2>技术特点</h2>
-            <ul class="feature-list">
-                <li>Protocol Buffers 数据序列化</li>
-                <li>HTTP/2 长连接支持</li>
-                <li>支持服务端推送</li>
-                <li>二进制协议，高效传输</li>
-            </ul>
-            <div class="tech-tags">
-                <span class="tech-tag">gRPC-Web</span>
-                <span class="tech-tag">Golang</span>
-                <span class="tech-tag">JavaScript</span>
-                <span class="tech-tag">Protocol Buffers</span>
-                <span class="tech-tag">HTTP/2</span>
-            </div>
-        </div>
-        <div class="login-section">
-            <div class="login-header">
-                <h1>GrpcGate 登录系统</h1>
-            </div>
-            <form class="login-form" id="loginForm">
-                <div class="form-group">
-                    <label for="username">用户名</label>
-                    <input type="text" id="username" placeholder="请输入用户名" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">密码</label>
-                    <input type="password" id="password" placeholder="请输入密码" required>
-                </div>
-                <button type="submit" class="login-button">登录</button>
-            </form>
-            <div id="status" class="status-message"></div>
-            <div class="login-tips">
-                <strong>登录说明：</strong>
-                <ul>
-                    <li>用户名和密码不能为空</li>
-                    <li>用户名：admin，密码：admin 可用于测试</li>
-                    <li>使用 gRPC-Web 进行安全通信</li>
-                    <li>支持跨域请求和 HTTP/2</li>
+        <div class="login-content">
+            <div class="project-info login-section">
+                <h2>GrpcGate 项目说明</h2>
+                <ul class="feature-list">
+                    <li>基于 gRPC-Web 的现代通信架构</li>
+                    <li>Go 后端提供高性能服务</li>
+                    <li>支持双向流式通信</li>
+                    <li>内置安全认证机制</li>
+                    <li>跨平台兼容性支持</li>
                 </ul>
+                <h2>技术特点</h2>
+                <ul class="feature-list">
+                    <li>Protocol Buffers 数据序列化</li>
+                    <li>HTTP/2 长连接支持</li>
+                    <li>支持服务端推送</li>
+                    <li>二进制协议，高效传输</li>
+                </ul>
+                <div class="tech-tags">
+                    <span class="tech-tag">gRPC-Web</span>
+                    <span class="tech-tag">Golang</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Protocol Buffers</span>
+                    <span class="tech-tag">HTTP/2</span>
+                </div>
+            </div>
+            <div class="login-section">
+                <div class="login-header">
+                    <h1>GrpcGate 登录系统荷花版本1.0</h1>
+                </div>
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="username">用户名</label>
+                        <input type="text" id="username" placeholder="请输入用户名" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" id="password" placeholder="请输入密码" required>
+                    </div>
+                    <button type="submit" class="login-button">登录</button>
+                </form>
+                <div id="status" class="status-message"></div>
+                <div class="login-tips">
+                    <strong>登录说明：</strong>
+                    <ul>
+                        <li>用户名和密码不能为空</li>
+                        <li>用户名：admin，密码：admin 可用于测试</li>
+                        <li>使用 gRPC-Web 进行安全通信</li>
+                        <li>支持跨域请求和 HTTP/2</li>
+                    </ul>
+                </div>
+                <div class="github-link">
+                    <a href="https://github.com/test502git/GrpcGate" target="_blank">
+                        <svg class="github-icon" viewBox="0 0 16 16">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                        </svg>
+                        在 GitHub 上查看源码
+                    </a>
+                </div>
             </div>
         </div>
     `;
