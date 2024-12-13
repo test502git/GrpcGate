@@ -1,11 +1,13 @@
+const path = require('path');
+
 module.exports = {
     mode: 'development',
     entry: './static/client.js',
     output: {
-        filename: 'bundle.js',
-        path: __dirname + '/static/dist'
+        filename: 'main.js',
+        path: path.resolve(__dirname, 'static/dist')
     },
     resolve: {
-        modules: [__dirname, 'node_modules']
+        extensions: ['.js']
     }
 };
