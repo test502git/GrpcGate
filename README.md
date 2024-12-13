@@ -1,4 +1,4 @@
-# GrpcGate - 基于 gRPC-Web 的登录系统
+# GrpcGate - 基于 gRPC-Web 的登录系统荷花版本1.0
 
 这是一个使用 gRPC-Web、Go 和 JavaScript 实现的简单登录系统。项目展示了如何在浏览器中使用 gRPC 与后端服务进行通信，实现了一个安全、高效的身份验证门户。
 演示环境：http://107.150.106.94:8080/
