@@ -1,48 +1,12 @@
 # GrpcGate - 基于 gRPC-Web 的登录系统
 
 这是一个使用 gRPC-Web、Go 和 JavaScript 实现的简单登录系统。项目展示了如何在浏览器中使用 gRPC 与后端服务进行通信，实现了一个安全、高效的身份验证门户。
+演示环境：http://107.150.106.94:8080/
 
 ## 项目架构
 
-```plantuml
-@startuml
-participant "浏览器" as Browser
-participant "gRPC-Web JS Client" as WebClient
-participant "Go HTTP Server" as HTTPServer
-participant "gRPC-Web Wrapper" as Wrapper
-participant "gRPC Server" as GRPCServer
-participant "Auth Service" as AuthService
+![项目架构](https://raw.githubusercontent.com/test502git/GrpcGate/refs/heads/main/1111.png)
 
-Browser -> WebClient: 用户点击登录
-activate WebClient
-
-WebClient -> HTTPServer: HTTP POST请求\n(包含二进制protobuf数据)
-activate HTTPServer
-
-HTTPServer -> Wrapper: 转发请求
-activate Wrapper
-
-Wrapper -> GRPCServer: 转换为gRPC请求
-activate GRPCServer
-
-GRPCServer -> AuthService: 调用Login方法
-activate AuthService
-AuthService --> GRPCServer: 返回登录结果
-deactivate AuthService
-
-GRPCServer --> Wrapper: gRPC响应
-deactivate GRPCServer
-
-Wrapper --> HTTPServer: 转换为HTTP响应
-deactivate Wrapper
-
-HTTPServer --> WebClient: HTTP响应\n(包含二进制protobuf数据)
-deactivate HTTPServer
-
-WebClient --> Browser: 显示登录结果
-deactivate WebClient
-@enduml
-```
 
 ## 项目结构
 
