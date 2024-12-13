@@ -6,7 +6,7 @@
 ## 项目架构
 
 ![项目架构](https://raw.githubusercontent.com/test502git/GrpcGate/refs/heads/main/1111.png)
-
+![前端页面](https://raw.githubusercontent.com/test502git/GrpcGate/refs/heads/main/login.png)
 
 ## 项目结构
 
